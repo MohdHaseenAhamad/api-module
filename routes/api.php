@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\StudentController;
-
+use App\Http\Controllers\Api\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +14,12 @@ use App\Http\Controllers\Api\StudentController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(['middleware'=>'api'],function($routes){
+    Route::post('user/register',[UserController::class,'register']);
+    Route::post('user/login',[UserController::class,'login']);
+});
+
+
 Route::post('student/store',[StudentController::class,'store']);
 Route::get('student',[StudentController::class,'index']);
 Route::get('student/show/{id}',[StudentController::class,'show']);

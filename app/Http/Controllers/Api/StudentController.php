@@ -19,7 +19,7 @@ class StudentController extends Controller {
       $students = Student::all();
       return response()->json([
           'status'=>200,
-          'students'=>$students
+          'data'=>$students
       ]);
     }
 
@@ -76,13 +76,13 @@ class StudentController extends Controller {
         {
             return response()->json([
                 'status'=>200,
-                'students'=>$student
+                'data'=>$student
             ]);
         }else
         {
             return response()->json([
                 'status'=>404,
-                'students'=>"Id is not found"
+                'message'=>"Id is not found"
             ]);
         }
 
@@ -115,14 +115,14 @@ class StudentController extends Controller {
             $student->update();
             return response()->json([
                 'status'=>200,
-                'students'=>"Student Update Successfully."
+                'message'=>"Student Update Successfully."
             ]);
         }
         else
         {
             return response()->json([
                 'status'=>404,
-                'students'=>"Id is not found"
+                'message'=>"Id is not found"
             ]);
         }
     }
