@@ -117,7 +117,8 @@ class StudentController extends Controller {
                 'status'=>200,
                 'students'=>"Student Update Successfully."
             ]);
-        }else
+        }
+        else
         {
             return response()->json([
                 'status'=>404,
