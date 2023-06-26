@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Tymon\JWTAuth\Contracts\JWTSubject; 
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -18,15 +18,13 @@ class User extends Authenticatable implements JWTSubject
         # code...
         return $this->getKey();
     }
-    
+
     public function getJWTCustomClaims()
     {
         # code...
         return [];
     }
-    public function getAuthPassword() {
-        return $this->email;
-    }
+
 
     /**
      * The attributes that are mass assignable.

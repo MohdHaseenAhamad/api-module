@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Auth;
-use Validator;
-// use Illuminate\Support\Facades\Validator;
+//use Auth;
+use Illuminate\Support\Facades\Auth;
+//use Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -18,7 +19,6 @@ class UserController extends Controller
         $validator = validator::make($request->all(), [
             'name' => ['required', 'min:2', 'max:100'],
             'email' => ['required', 'unique:users', 'max:100'],
-            'password'=>['reqired','min:6','string'],
         ]);  /*Add User Information Validation*/
         if($validator->fails())
         {
@@ -43,7 +43,7 @@ class UserController extends Controller
     {
         # code...
         $validator = validator::make($request->all(), [
-            'email' => ['required', 'unique:users', 'max:100' ],
+            'email' => ['required', 'max:100' ],
             'password'=>['required','min:6','string'],
         ]);  /*Add User Information Validation*/
         if($validator->fails())
@@ -53,27 +53,26 @@ class UserController extends Controller
                 'message'=>$validator->errors()
             ]);
         }
-        $dataAttempt = array(
+        $credentials = array(
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => $request->password
         );
-        $token =Auth::attempt($dataAttempt);
-        if (!$token)
-        {
-            return response()->json([
-                'status'=>400,
-                'message'=>$token,
-            ]);
+        $token = auth()->attempt($credentials);
+        if($token === false){
+            return response()->json(['status' => 400,'message'=>'Unauthorized user']);
         }
-        return $this->responsedWithToken($token);
+        return $this->respondWithToken($token);
     }
-    protected function responsedWithToken($token)
+    protected function respondWithToken($token)
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            //'expires_in' => auth()->factory()->getTTL() * 60
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
+    }
+    public function profile()
+    {
+        return response()->json(auth('api')->user());
     }
 }

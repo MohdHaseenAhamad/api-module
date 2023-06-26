@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\UserController;
 Route::group(['middleware'=>'api'],function($routes){
     Route::post('user/register',[UserController::class,'register']);
     Route::post('user/login',[UserController::class,'login']);
+    Route::post('user/profile',[UserController::class,'profile']);
 });
 
 
